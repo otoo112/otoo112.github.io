@@ -3,140 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Feet</title>
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <link rel="icon" type="image/png" href="image.png">
+    <title>Supercell Support</title>
     <style>
-        /* Previous styles remain the same */
-        .search-bar {
-            transition: all 0.3s ease;
-            background: #fff;
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
-        .search-bar:hover {
-            background-color: #fff;
-            box-shadow: 0 1px 6px rgb(32 33 36 / 28%);
-            border-color: rgba(223,225,229,0);
+        .light {
+            position: absolute;
+            top: -300px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10000px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(0,0,0,0) 80%);
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(100px);
         }
-        .search-bar:focus {
-            box-shadow: 0 1px 6px rgb(32 33 36 / 28%);
-            border-color: rgba(223,225,229,0);
+        .container {
+            max-width: 800px;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 20px;
         }
-        .search-button {
-            background-color: #f8f9fa;
-            border: 1px solid #f8f9fa;
-            transition: all 0.2s ease;
+        img {
+            width: 250px;
+            margin-bottom: 20px;
         }
-        .search-button:hover {
-            box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
-            background-color: #f8f9fa;
-            border: 1px solid #dadce0;
-            color: #202124;
+        h1 {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
         }
-        .nav-button {
-            background-color: #1a73e8;
-            transition: all 0.2s ease;
+        p {
+            font-size: 20px;
+            opacity: 0.8;
+            margin-bottom: 30px;
+            line-height: 1.5;
         }
-        .nav-button:hover {
-            background-color: #2b7de9;
-            box-shadow: 0 1px 2px 0 rgb(66 133 244 / 30%), 0 1px 3px 1px rgb(66 133 244 / 15%);
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 20px;
+            color: black;
+            background-color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.2s;
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
         }
-        .footer-link:hover {
-            color: #202124;
-        }
-        .logo{
-            width: 50%;
-            margin-left: auto;
-            margin-right: auto;
+        .btn:hover {
+            background-color: #ddd;
+            transform: translateY(-2px);
         }
     </style>
 </head>
-<body class="min-h-screen bg-white flex flex-col">
-    <nav class="flex justify-end items-center p-4 space-x-4">
-        <a href="#" class="text-sm text-gray-600 hover:text-gray-800">Footmail</a>
-        <a href="#" class="text-sm text-gray-600 hover:text-gray-800">Footages</a>
-        <button class="nav-button text-white px-6 py-2 rounded-md text-sm font-medium">Sign in</button>
-    </nav>
-
-    <main class="flex-grow flex flex-col items-center justify-center px-4 -mt-16">
-        <div class="mb-8">
-            <img src="image.png" class="logo" alt="Google Feet Logo"/>
-        </div>
-
-        <div class="w-full max-w-2xl">
-            <form id="searchForm" onsubmit="return handleSearch(event)">
-                <div class="relative">
-                    <input type="text" 
-                        id="searchInput"
-                        class="search-bar w-full px-5 py-3 rounded-full border border-gray-200 focus:outline-none text-gray-700"
-                        placeholder="Search feet sizes...">
-                    <div class="absolute right-0 top-0 h-full flex items-center pr-5 space-x-2">
-                        <button type="submit">
-                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="flex justify-center mt-8 space-x-3">
-                    <button type="submit" class="search-button px-6 py-2 text-sm text-gray-700 rounded hover:text-gray-800">
-                        Google Feet Search
-                    </button>
-                    <button type="button" onclick="feelingTippy()" class="search-button px-6 py-2 text-sm text-gray-700 rounded hover:text-gray-800">
-                        I'm Feeling Tippy
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <div class="mt-8 text-sm text-gray-600">
-            Google Feet offered in: 
-            <a href="#" class="text-blue-600 hover:underline">US Size</a> 
-            <a href="#" class="text-blue-600 hover:underline ml-2">EU Size</a>
-            <a href="#" class="text-blue-600 hover:underline ml-2">UK Size</a>
-        </div>
-    </main>
-
-    <footer class="bg-gray-100 text-sm text-gray-600">
-        <div class="border-t border-gray-300">
-            <div class="max-w-screen-xl mx-auto px-6">
-                <div class="flex flex-col md:flex-row justify-between py-3">
-                    <div class="flex flex-wrap gap-6 mb-4 md:mb-0">
-                        <a href="#" class="footer-link hover:text-gray-800">About</a>
-                        <a href="#" class="footer-link hover:text-gray-800">Advertising</a>
-                        <a href="#" class="footer-link hover:text-gray-800">Foot Business</a>
-                        <a href="#" class="footer-link hover:text-gray-800">How Search works</a>
-                    </div>
-                    <div class="flex flex-wrap gap-6">
-                        <a href="#" class="footer-link hover:text-gray-800">Privacy</a>
-                        <a href="#" class="footer-link hover:text-gray-800">Terms</a>
-                        <a href="#" class="footer-link hover:text-gray-800">Settings</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        function handleSearch(event) {
-            event.preventDefault();
-            const query = document.getElementById('searchInput').value;
-            const searchUrl = `https://www.google.com/search?q=feet ${encodeURIComponent(query)}`;
-            window.location.href = searchUrl;
-            return false;
-        }
-
-        function feelingTippy() {
-            const funnyQueries = [
-                "why do feet smell like cheese",
-                "can feet grow after 18",
-                "do feet have taste buds",
-                "why do feet look weird",
-                "feet evolution theory"
-            ];
-            const randomQuery = funnyQueries[Math.floor(Math.random() * funnyQueries.length)];
-            window.location.href = `https://www.google.com/search?q=feet ${encodeURIComponent(randomQuery)}`;
-        }
-    </script>
+<body>
+    <div class="light"></div>
+    <div class="container">
+        <img src="Supercell-logo.png" alt="Supercell Logo">
+        <h1>Supercell Support</h1>
+        <p>Need help with our games? Get the best support experience right here.</p>
+        <a href="mailto:support@supercell.team" class="btn">Get Support</a>
+    </div>
 </body>
 </html>
